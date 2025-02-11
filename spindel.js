@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
   database: 'SPINDEL_DB'
 })
 
-//connection.connect()
+connection.connect()
 
 //setInterval(()=>{
 //	connection.query('SELECT ID, TEMP_VALUE from SPINDEL_DB.BREW_TEMP', (err, rows, fields) => {
@@ -26,8 +26,11 @@ const connection = mysql.createConnection({
 //connection.end()
 
 app.get('/', (req, res) => {
-  console.log('Dupa')
-  res.send({resp:'Hello World!'})
+  
+  connection.query('SELECT ID, TEMP_VALUE from SPINDEL_DB.BREW_TEMP', (err, rows, fields) => {
+  if (err) throw err
+	res.send({resp:rows})
+  })
 })
 
 app.listen(port, () => {
